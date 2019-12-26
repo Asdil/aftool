@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aftool"
-version = "0.0.3"
+version = "0.0.5"
 description = "Asdil Fibrizo's tool"
 authors = ["Asdil Fibrizo <jpl4job@126.com>"]
 license = "MIT"
@@ -9,8 +9,8 @@ homepage = "https://github.com/Asdil/aftool"
 repository = "https://github.com/Asdil/aftool"
 
 [tool.poetry.dependencies]
-python = "^3.7"
-tqdm = "^4.41.0"
+python = "^3.5"
+tqdm = "^4.41"
 psutil = "^5.6"
 
 [tool.poetry.dev-dependencies]
