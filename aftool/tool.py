@@ -19,6 +19,7 @@ import zipfile
 import psutil
 import subprocess
 from tqdm import tqdm
+from datetime import datetime
 
 
 def path_join(path1, path2):
@@ -54,6 +55,23 @@ def get_files(path, extension=None, key=None):
         ret = [path_join(path, each) for each in os.listdir(path)]
     return ret
 
+# 获取文件名
+def get_name(path, extension=None, key=None):
+    """
+    获取目标目录下文件名
+    :param path:      路径
+    :param extension: 后缀
+    :param key:       关键字
+    :return:
+    """
+    if extension is not None:
+        l = -len(extension)
+        ret = [each for each in os.listdir(path) if each[l:] == extension]
+    elif key is not None:
+        ret = [each for each in os.listdir(path) if key in each]
+    else:
+        ret = [each for each in os.listdir(path)]
+    return ret
 
 def bar(data):
     """
@@ -109,7 +127,8 @@ def split_path(path):
     assert type(path) is str
     file_path, tmp_file_name = os.path.split(path)
     file_name, extension = os.path.splitext(tmp_file_name)
-    return file_path, file_name, extension, tmp_file_name
+    file_name_no_point = file_name.split('.')[0]
+    return file_path, file_name, file_name_no_point, extension, tmp_file_name
 
 
 def copy_file(srcfile, dstfile):
@@ -124,7 +143,7 @@ def copy_file(srcfile, dstfile):
         print("%s not exist!" % srcfile)
         assert os.path.isfile(srcfile) is True
     else:
-        _, _, _, name = split_path(srcfile)
+        _, _, _, _, name = split_path(srcfile)
         if dstfile[-len(name):] == name:
             fpath, fname = os.path.split(dstfile)  # 分离文件名和路径
         else:
@@ -292,7 +311,7 @@ def zip_file(file_path, output=None, rename=None, typ=3):
     :return:           True, False
     """
     # 拆分成文件路径，文件
-    path, name, _, name_extension = split_path(file_path)
+    path, name, _, _, name_extension = split_path(file_path)
     if rename is None:
         rename = name
 
@@ -317,7 +336,7 @@ def unzip_file(file_path, output=None):
     :param file_path:  zip文件完整路径
     :return:
     """
-    path, name, _, name_extension = split_path(file_path)
+    path, name, _, _, name_extension = split_path(file_path)
     azip = zipfile.ZipFile(file_path)
     if output is None:
         azip.extractall(path=output)
@@ -357,7 +376,7 @@ def unzip_dir(file_dir, output=None, rename=None):
     :param file_dir:  解压文件夹
     :return:
     """
-    path, name, _, _ = split_path(file_dir)
+    path, name, _, _, _ = split_path(file_dir)
     if output is None:
         output = path
     if rename is None:
@@ -378,7 +397,7 @@ def gzip_file(file_path, output=None, rename=None, del_file=False):
     :return:
     """
     assert os.path.exists(file_path)
-    path, name, _, name_extension = split_path(file_path)
+    path, name, _, _, name_extension = split_path(file_path)
     if rename is None:
         rename = name
     if output is None:
@@ -403,7 +422,7 @@ def gunzip_file(file_path, output=None, rename=None, del_file=False):
     :return:
     """
     assert os.path.exists(file_path)
-    path, name, _, name_extension = split_path(file_path)
+    path, name, _, _, name_extension = split_path(file_path)
     if rename is None:
         rename = name
     if output is None:
@@ -588,3 +607,12 @@ def merge_commelement_list(lsts):
         sets = results
     return sets
 
+
+def runtime(func):
+    def wrapper(*args, **kwargs):
+        start_now = datetime.now()
+        ret = func(*args, **kwargs)
+        end_now = datetime.now()
+        print(f'起始时间:{start_now} 结束时间:{end_now}, 一共用时{end_now-start_now}')
+        return ret
+    return wrapper
