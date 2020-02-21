@@ -3,7 +3,8 @@ python:
   - "3.6"
 # command to install dependencies
 install:
-    - pip install tqdm psutil pandas numpy
+    - pip install poetry
+    - poetry install
 # command to run tests
 #script:
-#    - make test
+#  #    - make test
