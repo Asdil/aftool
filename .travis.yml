@@ -5,6 +5,8 @@ python:
 install:
     - pip install poetry
     - poetry install
+env:
+  - TESTS_TO_RUN=tests/test_tool.py
 # command to run tests
-#script:
-#  #    - make test
+script:
+  - pytest $TESTS_TO_RUN
