@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0ebb7f4c-87f9-4f87-80be-7d87b6ae282f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/aftool/.travis.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="0ebb7f4c-87f9-4f87-80be-7d87b6ae282f" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -110,7 +106,7 @@
       <updated>1577326846088</updated>
       <workItem from="1580891438449" duration="1524000" />
       <workItem from="1580975333996" duration="694000" />
-      <workItem from="1582267493466" duration="155000" />
+      <workItem from="1582267493466" duration="343000" />
     </task>
     <servers />
   </component>
