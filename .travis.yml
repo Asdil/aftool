@@ -8,6 +8,7 @@ install:
 env:
   - TESTS_TO_RUN=tests/test_tool.py
   - TESTS_TO_RUN=tests/test_fo.py
+  - TESTS_TO_RUN=tests/test_jobs.py
 # command to run tests
 script:
   - pytest $TESTS_TO_RUN
