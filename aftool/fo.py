@@ -53,7 +53,7 @@ def del_file(path):
     flag = True
     try:
         os.remove(path)
-    except:
+    except BaseException:
         flag = False
     return flag
 
@@ -67,7 +67,7 @@ def del_dir(path):
     flag = True
     try:
         shutil.rmtree(path)
-    except:
+    except BaseException:
         flag = False
     return flag
 
@@ -122,7 +122,7 @@ def copy_all_files(srcfile, dstfile, key=None, isreplace=False):
                 tool.copy_file(_file, dstfile)
             else:
                 _, _, _, _, name = tool.split_path(_file)
-                shutil.copytree(_file, dstfile+f'/{name}')
+                shutil.copytree(_file, dstfile + f'/{name}')
 
 
 def cut_all_files(srcfile, dstfile, key=None, isreplace=False):
@@ -156,8 +156,8 @@ def cut_all_files(srcfile, dstfile, key=None, isreplace=False):
             if is_file(_file):
                 tool.cutFile(_file, dstfile)
             else:
-                _,_,_,name = tool.splitPath(_file)
-                shutil.move(_file, dstfile+f'/{name}')
+                _, _, _, name = tool.splitPath(_file)
+                shutil.move(_file, dstfile + f'/{name}')
                 print(f'copy {_file} -> dstfile/{name}')
 
 
@@ -193,6 +193,5 @@ def cut_all_files(srcfile, dstfile, key=None, isreplace=False):
                 tool.cut_file(_file, dstfile)
             else:
                 _, _, _, _, name = tool.split_path(_file)
-                shutil.move(_file, dstfile+f'/{name}')
+                shutil.move(_file, dstfile + f'/{name}')
                 print(f'cut {_file} -> dstfile/{name}')
-

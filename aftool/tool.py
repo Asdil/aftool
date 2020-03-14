@@ -12,6 +12,7 @@
 """
 __author__ = 'Asdil'
 import os
+import pip
 import gzip
 import time
 import shutil
@@ -20,6 +21,7 @@ import psutil
 import subprocess
 from tqdm import tqdm
 from datetime import datetime
+from inspect import signature
 
 
 def path_join(path1, path2):
@@ -29,13 +31,13 @@ def path_join(path1, path2):
     :param path2:  文件名
     :return:
     """
-    assert type(path1) is str
-    assert type(path2) is str
+    assert isinstance(path1, str)
+    assert isinstance(path2, str)
     if path1[-1] != '/':
         path1 += '/'
     if path2[0] == '/':
         path2 = path2[1:]
-    return path1+path2
+    return path1 + path2
 
 
 def get_files(path, extension=None, key=None):
@@ -48,14 +50,18 @@ def get_files(path, extension=None, key=None):
     """
     if extension is not None:
         length = -len(extension)
-        ret = [path_join(path, each) for each in os.listdir(path) if each[length:] == extension]
+        ret = [path_join(path, each) for each in os.listdir(
+            path) if each[length:] == extension]
     elif key is not None:
-        ret = [path_join(path, each) for each in os.listdir(path) if key in each]
+        ret = [path_join(path, each)
+               for each in os.listdir(path) if key in each]
     else:
         ret = [path_join(path, each) for each in os.listdir(path)]
     return ret
 
 # 获取文件名
+
+
 def get_name(path, extension=None, key=None):
     """
     获取目标目录下文件名
@@ -72,6 +78,7 @@ def get_name(path, extension=None, key=None):
     else:
         ret = [each for each in os.listdir(path)]
     return ret
+
 
 def bar(data):
     """
@@ -124,7 +131,7 @@ def split_path(path):
     :param path: 路径
     :return:
     """
-    assert type(path) is str
+    assert isinstance(path, str)
     file_path, tmp_file_name = os.path.split(path)
     file_name, extension = os.path.splitext(tmp_file_name)
     file_name_no_point = file_name.split('.')[0]
@@ -261,12 +268,12 @@ def combin_dic(*args):
     ret = {}
     if len(args) == 1:
         dicts = args[0]
-        assert type(dicts) is list  # 断言是个列表
+        assert isinstance(dicts, list)  # 断言是个列表
         for _dict in dicts:
             ret = dict(ret, **_dict)
     else:
         for _dict in args:
-            assert type(_dict) is dict
+            assert isinstance(_dict, dict)
         for _dict in args:
             ret = dict(ret, **_dict)
     return ret
@@ -325,7 +332,10 @@ def zip_file(file_path, output=None, rename=None, typ=3):
     elif typ == 2:
         azip.write(file_path, name_extension, compress_type=zipfile.ZIP_BZIP2)
     else:
-        azip.write(file_path, name_extension, compress_type=zipfile.ZIP_DEFLATED)
+        azip.write(
+            file_path,
+            name_extension,
+            compress_type=zipfile.ZIP_DEFLATED)
     azip.close()
     print("{} -> {}".format(file_path, path_join(output, rename + '.zip')))
 
@@ -367,7 +377,7 @@ def zip_dir(file_dir, output=None, rename=None):
         shutil.make_archive(path_join(output, rename), 'zip', file_dir)
     else:
         shutil.make_archive(path_join(output, rename), 'zip', file_dir)
-    print("{} -> {}".format(file_dir, path_join(output, rename)+'.zip'))
+    print("{} -> {}".format(file_dir, path_join(output, rename) + '.zip'))
 
 
 def unzip_dir(file_dir, output=None, rename=None):
@@ -462,7 +472,7 @@ def until(y=None, m=None, d=None, H=None, M=None, S=None, logger=None):
         S = int(S)
         try:
             startTime = datetime.datetime(y, m, d, H, M, S)
-        except:
+        except BaseException:
             if logger:
                 logger.info('年月日时分秒输入错误')
             print('年月日时分秒输入错误')
@@ -502,12 +512,24 @@ def until(y=None, m=None, d=None, H=None, M=None, S=None, logger=None):
                         'hour': 3600,
                         'min': 60}
             if d:
-                seconds = (time_dic['day']*int(d) + time_dic['hour']*int(H) + time_dic['min']*int(M) + int(S))
+                seconds = (
+                    time_dic['day'] *
+                    int(d) +
+                    time_dic['hour'] *
+                    int(H) +
+                    time_dic['min'] *
+                    int(M) +
+                    int(S))
                 print(f'将于{d}天{H}小时{M}分{S}秒 后运行')
                 if logger:
                     logger.info(f'将于{d}天{H}小时{M}分{S}秒 后运行')
             elif H:
-                seconds = (time_dic['hour'] * int(H) + time_dic['min'] * int(M) + int(S))
+                seconds = (
+                    time_dic['hour'] *
+                    int(H) +
+                    time_dic['min'] *
+                    int(M) +
+                    int(S))
                 print(f'将于{H}小时{M}分{S}秒 后运行')
                 if logger:
                     logger.info(f'将于{H}小时{M}分{S}秒 后运行')
@@ -538,7 +560,8 @@ def get_process_id(name):
     :param name:
     :return:
     """
-    child = subprocess.Popen(["pgrep", "-f", name], stdout=subprocess.PIPE, shell=False)
+    child = subprocess.Popen(["pgrep", "-f", name],
+                             stdout=subprocess.PIPE, shell=False)
     response = child.communicate()[0]
     response = response.decode().strip().split('\n')
     if len(response) == 1 and len(response[0]) == 0:
@@ -561,7 +584,7 @@ def monitor_memery_cpu(pids, second=10, out_path=None, show=False):
         try:
             cpu = psutil.cpu_percent()
             memory = proc.memory_info().rss / 1024 / 1024
-        except:
+        except BaseException:
             break
         if show:
             print(f'cpu 使用率: {cpu}%  memory 使用量 {round(memory, 2)}MB')
@@ -609,10 +632,60 @@ def merge_commelement_list(lsts):
 
 
 def runtime(func):
+    """
+    运行时间的装饰器
+    :param : python function
+    :return:
+    """
     def wrapper(*args, **kwargs):
         start_now = datetime.now()
+        start_time = time.time()
         ret = func(*args, **kwargs)
+        end_time = time.time()
         end_now = datetime.now()
-        print(f'起始时间:{start_now} 结束时间:{end_now}, 一共用时{end_now-start_now}')
+        print(f'time时间:{end_time-start_time}')
+        print(
+            f'datetime起始时间:{start_now} 结束时间:{end_now}, 一共用时{end_now-start_now}')
         return ret
     return wrapper
+
+
+def typeassert(*ty_args, **ty_kwargs):
+    def decorate(func):
+        # If in optimized mode, disable type checking
+        if not __debug__:
+            return func
+
+        # Map function argument names to supplied types
+        sig = signature(func)
+        bound_types = sig.bind_partial(*ty_args, **ty_kwargs).arguments
+
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            bound_values = sig.bind(*args, **kwargs)
+            # Enforce type assertions across supplied arguments
+            for name, value in bound_values.arguments.items():
+                if name in bound_types:
+                    if not isinstance(value, bound_types[name]):
+                        raise TypeError(
+                            'Argument {} must be {}'.format(
+                                name, bound_types[name]))
+            return func(*args, **kwargs)
+        return wrapper
+    return decorate
+
+
+def install(package):
+    """install方法用于安装包
+
+    Parameters
+    ----------
+    package : str
+        包名
+    Returns
+    ----------
+    """
+    if hasattr(pip, 'main'):
+        pip.main(['install', package])
+    else:
+        pip._internal.main(['install', package])

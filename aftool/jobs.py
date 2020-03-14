@@ -3,7 +3,7 @@
 -------------------------------------------------
    File Name：     joblib
    Description :
-   Author :       23mofang
+   Author :        Asdil
    date：          2020/3/3
 -------------------------------------------------
    Change Activity:
@@ -82,7 +82,9 @@ def parallel(args, func, njobs, backend=0, verbose=0):
     backend_dict = {0: 'loky', 1: 'multiprocessing', 2: 'threading'}
     backend = backend_dict[backend]
 
-    ret = joblib.Parallel(n_jobs=njobs, backend=backend, verbose=verbose)(joblib.delayed(func)(arg) for arg in args)
+    ret = joblib.Parallel(
+        n_jobs=njobs, backend=backend, verbose=verbose)(
+        joblib.delayed(func)(arg) for arg in args)
     return ret
 
 

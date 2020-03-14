@@ -3,7 +3,7 @@
 -------------------------------------------------
    File Name：     aplot
    Description :
-   Author :       23mofang
+   Author :        Asdil
    date：          2020/2/27
 -------------------------------------------------
    Change Activity:
@@ -86,7 +86,7 @@ def get_kwargs(kwargs):
              12: ThemeType.WALDEN,
              13: ThemeType.WESTEROS,
              14: ThemeType.WONDERLAND,
-    }
+             }
     params = {'target': False,
               'bins': False,
               'overlap': False,
@@ -130,9 +130,16 @@ def get_y_axis(df, col, echart, **kwargs):
             data = bin_data(df_tmp, col, kwargs['bins'])
             y_values = data.values.tolist()  # y轴的值
             if kwargs['overlap']:  # 如果需要同一col不同类标签重叠
-                echart.add_yaxis(f"{col} {kwargs['target']}={label}", y_values, stack="stack1", gap=f"{kwargs['gap']}%")
+                echart.add_yaxis(
+                    f"{col} {kwargs['target']}={label}",
+                    y_values,
+                    stack="stack1",
+                    gap=f"{kwargs['gap']}%")
             else:
-                echart.add_yaxis(f"{col} {kwargs['target']}={label}", y_values, gap=f"{kwargs['gap']}%")
+                echart.add_yaxis(
+                    f"{col} {kwargs['target']}={label}",
+                    y_values,
+                    gap=f"{kwargs['gap']}%")
     else:  # 单纯统计col列
         data = bin_data(df, col, kwargs['bins'])
         y_values = data.values.tolist()  # y轴的值
@@ -180,9 +187,11 @@ def bar(df, col, **kwargs):
     get_x_axis(data, bar)
 
     # 全局设置
-    bar.set_global_opts(title_opts=opts.TitleOpts(title=kwargs['title']),
-                        xaxis_opts=opts.AxisOpts(axislabel_opts=opts.LabelOpts(rotate=kwargs['rotate'])),
-                        )
+    bar.set_global_opts(
+        title_opts=opts.TitleOpts(
+            title=kwargs['title']), xaxis_opts=opts.AxisOpts(
+            axislabel_opts=opts.LabelOpts(
+                rotate=kwargs['rotate'])), )
     if kwargs['reversal']:  # 旋转90度
         bar.reversal_axis()
         bar.set_series_opts(label_opts=opts.LabelOpts(position="right"))
@@ -191,4 +200,3 @@ def bar(df, col, **kwargs):
         make_snapshot(snapshot, bar.render(), f"{kwargs['save_path']}.png")
 
     return bar.render_notebook()  # 直接在jupyter上显示
-
