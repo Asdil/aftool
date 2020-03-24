@@ -57,7 +57,7 @@ def scatter(df, x, y, label=None, size=10, shape=True, xy_limit=None, title=None
     shape = label if shape else None
     ax = sns.scatterplot(x=x,
                          y=y,
-                         s=[size]*len(df),
+                         s=size,
                          hue=label,
                          style=shape,
                          legend=legend,
