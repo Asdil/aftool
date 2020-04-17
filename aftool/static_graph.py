@@ -55,12 +55,14 @@ def scatter(df, x, y, label=None, size=10, shape=True, xy_limit=None, title=None
         plt.axis(xy_limit)
     legend = 'full' if label else None
     shape = label if shape else None
+    cmap = sns.cubehelix_palette(dark=.3, light=.8, as_cmap=True)
     ax = sns.scatterplot(x=x,
                          y=y,
                          s=size,
                          hue=label,
                          style=shape,
                          legend=legend,
+                         palette="Set2",
                          data=df)
     if plot_dense == 1:
         sns.kdeplot(df[x], df[y], ax=ax)
