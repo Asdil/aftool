@@ -59,9 +59,8 @@ def get_files(path, extension=None, key=None):
         ret = [path_join(path, each) for each in os.listdir(path)]
     return ret
 
+
 # 获取文件名
-
-
 def get_name(path, extension=None, key=None):
     """
     获取目标目录下文件名
@@ -96,7 +95,7 @@ def bar(data):
         print('输入错误, 请输入int, list, dict')
 
 
-def subprocess_check_all(cmd):
+def subprocess_check_call(cmd):
     """
     执行命令行命令
     :param cmd:  命令行命令
@@ -128,14 +127,15 @@ def subprocess_popen(cmd):
 def split_path(path):
     """
     拆分目录
+    eg: '/tmp/tmp/a.txt'
+        '/tmp/tmp', 'a.txt', 'a', 'txt'
     :param path: 路径
     :return:
     """
     assert isinstance(path, str)
-    file_path, tmp_file_name = os.path.split(path)
-    file_name, extension = os.path.splitext(tmp_file_name)
-    file_name_no_point = file_name.split('.')[0]
-    return file_path, file_name, file_name_no_point, extension, tmp_file_name
+    file_path, file_full_name = os.path.split(path)
+    file_name, extension = os.path.splitext(file_full_name)
+    return file_path, file_name, extension, file_full_name
 
 
 def copy_file(srcfile, dstfile):
@@ -150,7 +150,7 @@ def copy_file(srcfile, dstfile):
         print("%s not exist!" % srcfile)
         assert os.path.isfile(srcfile) is True
     else:
-        _, _, _, _, name = split_path(srcfile)
+        _, _, _, name = split_path(srcfile)
         if dstfile[-len(name):] == name:
             fpath, fname = os.path.split(dstfile)  # 分离文件名和路径
         else:
@@ -318,7 +318,7 @@ def zip_file(file_path, output=None, rename=None, typ=3):
     :return:           True, False
     """
     # 拆分成文件路径，文件
-    path, name, _, _, name_extension = split_path(file_path)
+    path, name, _, name_extension = split_path(file_path)
     if rename is None:
         rename = name
 
@@ -346,7 +346,7 @@ def unzip_file(file_path, output=None):
     :param file_path:  zip文件完整路径
     :return:
     """
-    path, name, _, _, name_extension = split_path(file_path)
+    path, name, _, name_extension = split_path(file_path)
     azip = zipfile.ZipFile(file_path)
     if output is None:
         azip.extractall(path=output)
@@ -386,7 +386,7 @@ def unzip_dir(file_dir, output=None, rename=None):
     :param file_dir:  解压文件夹
     :return:
     """
-    path, name, _, _, _ = split_path(file_dir)
+    path, name, _, _ = split_path(file_dir)
     if output is None:
         output = path
     if rename is None:
@@ -407,7 +407,7 @@ def gzip_file(file_path, output=None, rename=None, del_file=False):
     :return:
     """
     assert os.path.exists(file_path)
-    path, name, _, _, name_extension = split_path(file_path)
+    path, name, _, name_extension = split_path(file_path)
     if rename is None:
         rename = name
     if output is None:
@@ -432,7 +432,7 @@ def gunzip_file(file_path, output=None, rename=None, del_file=False):
     :return:
     """
     assert os.path.exists(file_path)
-    path, name, _, _, name_extension = split_path(file_path)
+    path, name, _, name_extension = split_path(file_path)
     if rename is None:
         rename = name
     if output is None:

@@ -108,8 +108,8 @@ def memmap(data):
     return memmap_data
 
 
-def test_func(args):
-    """test_func方法用于pytest测试使用
+def example_ray():
+    """ray方法用于ray是例子
 
     Parameters
     ----------
@@ -118,6 +118,32 @@ def test_func(args):
     Returns
     ----------
     """
-    i, data = args
-    data[:100, :100].sum()
-    return i
+    print('import ray')
+    print('ray.init(num_cpus=8)')
+    print('args = []')
+    print('')
+    print('@ray.remote')
+    print('def func(args):')
+    print('    return 0')
+    print('')
+    print('df_id = ray.put(df) # 共享内存')
+    print('ret = [f.remote() for i in args]')
+
+
+def example_parallel():
+    """example_parallel方法用于jobs.parallel例子
+
+    Parameters
+    ----------
+
+    Returns
+    ----------
+    """
+    print('from aftool import jobs')
+    print('')
+    print('def func():')
+    print('    return 0')
+    print('')
+    print('args = []')
+    print('mmp_df = jobs.memmap(mmp_df)')
+    print('ret = jobs.parallel(args, func, njobs=8, backend=1)')

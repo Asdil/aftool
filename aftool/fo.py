@@ -107,12 +107,12 @@ def copy_all_files(srcfile, dstfile, key=None, isreplace=False):
     if isreplace:
         for _file in files:
             if is_file(_file):
-                _, _, _, _, name = tool.split_path(_file)
+                _, _, _, name = tool.split_path(_file)
                 if is_exist(_file):
                     del_file(tool.path_join(dstfile, name))
                 tool.copy_file(_file, dstfile)
             else:
-                _, _, _, _, name = tool.split_path(_file)
+                _, _, _, name = tool.split_path(_file)
                 if is_exist(_file):
                     del_dir(tool.path_join(dstfile, name))
                 shutil.copytree(_file, dstfile + f'/{name}')
@@ -121,7 +121,7 @@ def copy_all_files(srcfile, dstfile, key=None, isreplace=False):
             if is_file(_file):
                 tool.copy_file(_file, dstfile)
             else:
-                _, _, _, _, name = tool.split_path(_file)
+                _, _, _, name = tool.split_path(_file)
                 shutil.copytree(_file, dstfile + f'/{name}')
 
 
@@ -141,12 +141,12 @@ def cut_all_files(srcfile, dstfile, key=None, isreplace=False):
     if isreplace:
         for _file in files:
             if is_file(_file):
-                _, _, _, _, name = tool.split_path(_file)
+                _, _, _, name = tool.split_path(_file)
                 if is_exist(_file):
                     del_file(tool.path_join(dstfile, name))
                 tool.cut_file(_file, dstfile)
             else:
-                _, _, _, _, name = tool.split_path(_file)
+                _, _, _, name = tool.split_path(_file)
                 if is_exist(_file):
                     del_dir(tool.path_join(dstfile, name))
                 shutil.move(_file, dstfile + f'/{name}')
@@ -177,12 +177,12 @@ def cut_all_files(srcfile, dstfile, key=None, isreplace=False):
     if isreplace:
         for _file in files:
             if is_file(_file):
-                _, _, _, _, name = tool.split_path(_file)
+                _, _, _, name = tool.split_path(_file)
                 if is_exist(_file):
                     del_file(tool.path_join(dstfile, name))
                 tool.cut_file(_file, dstfile)
             else:
-                _, _, _, _, name = tool.split_path(_file)
+                _, _, _, name = tool.split_path(_file)
                 if is_exist(_file):
                     del_dir(tool.path_join(dstfile, name))
                 shutil.move(_file, dstfile + f'/{name}')
@@ -192,6 +192,6 @@ def cut_all_files(srcfile, dstfile, key=None, isreplace=False):
             if is_file(_file):
                 tool.cut_file(_file, dstfile)
             else:
-                _, _, _, _, name = tool.split_path(_file)
+                _, _, _, name = tool.split_path(_file)
                 shutil.move(_file, dstfile + f'/{name}')
                 print(f'cut {_file} -> dstfile/{name}')

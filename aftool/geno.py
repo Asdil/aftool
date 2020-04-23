@@ -50,12 +50,12 @@ def skipRowGZ(path):
     skiprows -= 1
     return skiprows
 
+
 # 读取vcf
-
-
 def readVcfGZ(path):
     df = pd.read_table(path, skiprows=skipRowGZ(path), low_memory=False)
     return df
+
 
 # 计算厘摩
 class geneticMap(object):
