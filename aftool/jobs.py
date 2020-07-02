@@ -74,7 +74,7 @@ def parallel(args, func, njobs, backend=0, verbose=1):
         1: multiprocessing 多进程，鲁棒性不如loky
         2: threading 多线程, 当释放GIL效率高
     verbose : int
-        是否有进度条
+        是否输出进度条
     Returns
     ----------
     """

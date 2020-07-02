@@ -90,9 +90,9 @@ def bar(data):
     elif isinstance(data, list) or isinstance(data, dict):
         return tqdm(data)
     elif isinstance(data, type(range(1))):
-        return tqdm(list(data))
+        return tqdm(data)
     else:
-        print('输入错误, 请输入int, list, dict')
+        print('输入错误, 请输入int, list, dict, 迭代器')
 
 
 def subprocess_check_call(cmd):
