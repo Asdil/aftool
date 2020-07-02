@@ -15,6 +15,7 @@ import joblib
 from aftool import tool
 from aftool import fo
 import tempfile
+from tqdm import tqdm
 
 
 @tool.runtime
@@ -56,8 +57,7 @@ def load(file_path):
     return obj
 
 
-@tool.runtime
-def parallel(args, func, njobs, backend=0, verbose=0):
+def parallel(args, func, njobs, backend=0, verbose=1):
     """parallel方法用于并行计算
 
     Parameters
@@ -74,17 +74,21 @@ def parallel(args, func, njobs, backend=0, verbose=0):
         1: multiprocessing 多进程，鲁棒性不如loky
         2: threading 多线程, 当释放GIL效率高
     verbose : int
-        日志输出级别, 最好在0-10 默认0
+        是否有进度条
     Returns
     ----------
     """
     # 并行种类
     backend_dict = {0: 'loky', 1: 'multiprocessing', 2: 'threading'}
     backend = backend_dict[backend]
-
-    ret = joblib.Parallel(
-        n_jobs=njobs, backend=backend, verbose=verbose)(
-        joblib.delayed(func)(arg) for arg in args)
+    if verbose == 0:
+        ret = joblib.Parallel(
+            n_jobs=njobs, backend=backend, verbose=0)(
+            joblib.delayed(func)(arg) for arg in args)
+    else:
+        ret = joblib.Parallel(
+            n_jobs=njobs, backend=backend, verbose=0)(
+            joblib.delayed(func)(arg) for arg in tqdm(args))
     return ret
 
 
