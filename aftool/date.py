@@ -11,6 +11,7 @@
 -------------------------------------------------
 """
 __author__ = 'Asdil'
+import time
 from datetime import datetime
 from dateutil.parser import parse
 
@@ -93,3 +94,27 @@ def timestamp_to_str(timestamp, milliseconds=False):
     """
     date = timestamp_to_datetime(timestamp)
     return datetime_to_str(date, milliseconds)
+
+
+def now_str(format_type=2):
+    """now_str方法用于返回当前时间,字符串类型
+
+    Parameters
+    ----------
+    format_type : int
+        显示类型
+        0: 年月日时分秒
+        1: 年-月-日 时:分:秒
+        2: 年月日时分
+        3: 年-月-日
+    Returns
+    ----------
+    """
+    if format_type == 0:
+        return time.strftime('%Y%m%d%H%M%S', time.localtime(time.time()))
+    elif format_type == 1:
+        return time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+    elif format_type == 2:
+        return time.strftime('%Y%m%d%H%M', time.localtime(time.time()))
+    else:
+        return time.strftime('%Y-%m-%d', time.localtime(time.time()))

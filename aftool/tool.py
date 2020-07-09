@@ -33,9 +33,9 @@ def path_join(path1, path2):
     """
     assert isinstance(path1, str)
     assert isinstance(path2, str)
-    if path1[-1] != '/':
-        path1 += '/'
-    if path2[0] == '/':
+    if path1[-1] != os.sep:
+        path1 += os.sep
+    if path2[0] == os.sep:
         path2 = path2[1:]
     return path1 + path2
 
