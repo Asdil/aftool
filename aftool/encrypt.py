@@ -53,7 +53,10 @@ def base_encrypt(data):
     Returns
     ----------
     """
-    return base64.b64encode(data)
+    data = bytes(data, encoding="utf8")
+    encrypt_data = base64.b64encode(data)
+    encrypt_data = str(encrypt_data, encoding="utf8")
+    return encrypt_data
 
 
 def base_decrypt(data):
@@ -67,5 +70,8 @@ def base_decrypt(data):
     Returns
     ----------
     """
-    return base64.b64decode(data)
+    data = bytes(data, encoding="utf8")
+    decrypt_data = base64.b64decode(data)
+    decrypt_data = str(decrypt_data, encoding="utf8")
+    return decrypt_data
 
