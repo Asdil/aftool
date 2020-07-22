@@ -18,6 +18,7 @@ import time
 import shutil
 import zipfile
 import psutil
+import itertools
 import subprocess
 from tqdm import tqdm
 from datetime import datetime
@@ -87,12 +88,7 @@ def bar(data):
     """
     if isinstance(data, int):
         return tqdm(range(data))
-    elif isinstance(data, list) or isinstance(data, dict):
-        return tqdm(data)
-    elif isinstance(data, type(range(1))):
-        return tqdm(data)
-    else:
-        print('输入错误, 请输入int, list, dict, 迭代器')
+    return tqdm(data)
 
 
 def subprocess_check_call(cmd):
@@ -689,3 +685,17 @@ def install(package):
         pip.main(['install', package])
     else:
         pip._internal.main(['install', package])
+
+
+def flatten(data):
+    """flatten方法用于平铺list
+
+    Parameters
+    ----------
+    data : list
+        列表
+
+    Returns
+    ----------
+    """
+    return list(itertools.chain.from_iterable(data))
