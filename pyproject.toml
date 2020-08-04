@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aftool"
-version = "0.1.9"
+version = "0.2.0"
 description = "Asdil Fibrizo's tool"
 authors = ["Asdil Fibrizo <jpl4job@126.com>"]
 license = "MIT"
@@ -24,6 +24,7 @@ seaborn = "^0.10.0"
 python-dateutil = "^2.8.1"
 loguru = "^0.5.1"
 pycryptodome = "^3.9.8"
+plotly = "^4.9.0"
 
 [tool.poetry.dev-dependencies]
 

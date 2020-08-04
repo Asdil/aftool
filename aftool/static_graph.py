@@ -76,4 +76,60 @@ def scatter(df, x, y, label=None, size=10, shape=True, xy_limit=None, title=None
     if title:
         plt.title(f'{title}', fontsize=20)
     if save_path:
-        plt.savefig(f'{save_path}')
+        plt.savefig(f'{save_path}', dpi=dpi)
+
+
+def hist(df=None, col=None, x=None, bins=None, xticks=None, yticks=None,
+         save_path=None, title=None, rotation=60, dpi=100, figsize=(16, 9), kde=True, rug=True):
+    """hist方法用于画单变量柱状图
+
+    Parameters
+    ----------
+    df : pd.DataFrame or None
+        pandas DataFrame数据
+    col: str or None
+        pd.DataFrame 列名
+    x: array like or None
+        列表类型数据
+    bins: int or None
+        分箱大小
+    xticks: array like or None
+        x轴坐标范围
+    yticks: array like or None
+        y轴坐标范围
+    save_path: str or None
+        保存路径
+    title: str or None
+        标题
+    rotation: int
+        坐标旋转角度
+    dpi: int
+        保存图片分辨率
+    figsize: tuple
+        画布大小
+    kde: bool
+        是否要密度分布曲线
+    rug: bool
+        是否要柱状图
+    Returns
+    ----------
+    """
+    plt.figure(figsize=figsize)
+    if xticks:
+        plt.xticks(xticks)
+        plt.xticks(rotation=rotation)
+    if yticks:
+        plt.yticks(yticks)
+        plt.yticks(rotation=rotation)
+    if df is not None:
+        x = df[col]
+    sns.distplot(x, kde=kde, rug=rug, bins=bins, color='g',
+                 kde_kws={"color": "k", "lw": 3, "label": "KDE"},
+                 hist_kws={"edgecolor": 'black'})
+    plt.xlabel('X', fontdict={'family': 'Times New Roman', 'size': 24})
+    plt.ylabel('Ratio', fontdict={'family': 'Times New Roman', 'size': 24})
+
+    if title:
+        plt.title(title, fontsize=24)
+    if save_path:
+        plt.savefig(save_path, dpi=dpi)  # 指定分辨率

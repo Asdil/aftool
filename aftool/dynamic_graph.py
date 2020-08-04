@@ -17,6 +17,8 @@ from pyecharts import options as opts
 from pyecharts.globals import ThemeType
 from snapshot_selenium import snapshot
 from pyecharts.render import make_snapshot
+import plotly
+import plotly.express as px
 
 
 # 统计单个列的数据
@@ -200,3 +202,44 @@ def bar(df, col, **kwargs):
         make_snapshot(snapshot, bar.render(), f"{kwargs['save_path']}.png")
 
     return bar.render_notebook()  # 直接在jupyter上显示
+
+
+def scatter(df, x, y, label=None, symbol=None, mark_size=9, width=1000, height=600, title=None,
+            is_show=True, save_path=None):
+    """scatter方法用于画动态散点图
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+    x: str
+        df中, x轴列名
+    y: str
+        df中, y轴列名
+    label: str or None
+        df中标签名称
+    symbol: str or None
+        df中散点形状
+    mark_size: int
+        散点大小
+    width: int
+        画布长度
+    height: int
+        画布高度
+    title: str or None
+        标题
+    save_path: str or None
+        保存路径必须是html
+    is_show: bool
+        是否显示
+
+    Returns
+    ----------
+    """
+    fig = px.scatter(df, x=x, y=y, color=label, symbol=symbol, width=width, height=height)
+    fig.update_traces(marker=dict(size=mark_size, line=dict(width=1, color='DarkSlateGrey')),
+                      selector=dict(mode='markers'))
+    fig.update_layout(template='seaborn', title=title)
+    if save_path:
+        plotly.offline.plot(fig, filename=save_path, auto_open=False)
+    if is_show:
+        fig.show()
