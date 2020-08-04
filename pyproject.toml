@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aftool"
-version = "0.2.0"
+version = "0.2.1"
 description = "Asdil Fibrizo's tool"
 authors = ["Asdil Fibrizo <jpl4job@126.com>"]
 license = "MIT"

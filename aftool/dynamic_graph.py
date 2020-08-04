@@ -205,7 +205,7 @@ def bar(df, col, **kwargs):
 
 
 def scatter(df, x, y, label=None, symbol=None, mark_size=9, width=1000, height=600, title=None,
-            is_show=True, save_path=None):
+            is_show=True, save_path=None, xyrange=None):
     """scatter方法用于画动态散点图
 
     Parameters
@@ -231,6 +231,8 @@ def scatter(df, x, y, label=None, symbol=None, mark_size=9, width=1000, height=6
         保存路径必须是html
     is_show: bool
         是否显示
+    xyrange: list
+        固定x，y轴范围eg: [xmin, xmax, ymin, ymax]
 
     Returns
     ----------
@@ -238,7 +240,16 @@ def scatter(df, x, y, label=None, symbol=None, mark_size=9, width=1000, height=6
     fig = px.scatter(df, x=x, y=y, color=label, symbol=symbol, width=width, height=height)
     fig.update_traces(marker=dict(size=mark_size, line=dict(width=1, color='DarkSlateGrey')),
                       selector=dict(mode='markers'))
-    fig.update_layout(template='seaborn', title=title)
+    if xyrange:
+        xmin, xmax, ymin, ymax = xyrange
+    else:
+        xmax = df[x].max() + df[x].max() * 0.1
+        xmin = df[x].min() - df[x].min() * 0.1
+        ymax = df[y].max() + df[y].max() * 0.1
+        ymin = df[y].min() - df[y].min() * 0.1
+    fig.update_layout(template='seaborn', title=title,
+                      xaxis=dict(range=[xmin, xmax]),
+                      yaxis=dict(range=[ymin, ymax]))
     if save_path:
         plotly.offline.plot(fig, filename=save_path, auto_open=False)
     if is_show:
