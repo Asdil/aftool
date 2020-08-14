@@ -18,7 +18,6 @@ import tempfile
 from tqdm import tqdm
 
 
-@tool.runtime
 def dump(py_object, save_path, compress=3):
     """dump方法用于持久化python数据
 
@@ -35,10 +34,9 @@ def dump(py_object, save_path, compress=3):
     ----------
     """
     joblib.dump(py_object, save_path, compress=compress)
-    print(f'{save_path} 存储完成!')
+    print(f'{save_path} 保存成功！')
 
 
-@tool.runtime
 def load(file_path):
     """load方法用于读取持久化文件
 
@@ -53,7 +51,7 @@ def load(file_path):
     """
     assert fo.is_exist(file_path), f'{file_path} 文件不存在!'
     obj = joblib.load(file_path)
-    print(f'{file_path} 读取成功!')
+
     return obj
 
 

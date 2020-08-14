@@ -699,3 +699,56 @@ def flatten(data):
     ----------
     """
     return list(itertools.chain.from_iterable(data))
+
+
+def read_json(path):
+    """read_json方法用于读取json文件
+
+    Parameters
+    ----------
+    path : str
+        json文件路径
+
+    Returns
+    ----------
+    """
+    import json
+    with open(path, 'r', encoding='utf-8') as f:
+        data = json.loads(f.read())
+    return data
+
+
+def write_json(data, path):
+    """write_json方法用于写json到文件中
+
+    Parameters
+    ----------
+    data : str
+        字典文件
+    path : str
+        保存路径
+    Returns
+    ----------
+    """
+    import json
+    with open(path, "w", encoding='UTF-8') as f:
+        f.write(json.dumps(data, indent=4, ensure_ascii=False))
+
+
+def show_memory(variable, unit='KB'):
+    """show_memory方法用于查看变量占用内存多少
+
+    Parameters
+    ----------
+    variable : str
+        变量名称
+    unit : str
+        单位 B, KB, MB, GB
+    Returns
+    ----------
+    """
+    from sys import getsizeof
+    scale = {'B': 1, 'KB': 1024, 'MB': 1048576, 'GB': 1073741824}[unit]
+    memory = eval("getsizeof({})".format(variable)) // scale
+    print(f'{variable}: {memory} {unit}')
+    return memory
