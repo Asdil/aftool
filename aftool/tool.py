@@ -591,15 +591,37 @@ def monitor_memery_cpu(pids, second=10, out_path=None, show=False):
             f.write('\n'.join(info))
 
 
-def read(path, sep='\n'):
+def read(path, sep='\n', encoding='utf-8'):
     """
     按行读数据
     :param path: 路径
     :param sep:  分隔符
+    :param encoding: 编码
     :return:
     """
-    with open(path, 'r') as f:
+    with open(path, 'r', encoding=encoding) as f:
         return f.read().strip().split(sep)
+
+
+def write(data, path, sep='\n', encoding='utf-8'):
+    """write方法用于写数据
+
+    Parameters
+    ----------
+    data : list
+        列表数据
+    path : str
+        存储路径
+    sep : str
+        分隔符
+    encoding : str
+        编码种类
+
+    Returns
+    ----------
+    """
+    with open(path, 'w', encoding=encoding) as f:
+        f.write(sep.join(data))
 
 
 def merge_commelement_list(lsts):
