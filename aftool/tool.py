@@ -669,6 +669,21 @@ def runtime(func):
 
 
 def typeassert(*ty_args, **ty_kwargs):
+    """typeassert方法用于强制确认输入格式
+
+    @typeassert(int, b=str)
+    f(a, b)
+
+    Parameters
+    ----------
+    param : str
+
+    Returns
+    ----------
+    """
+    from inspect import signature
+    from functools import wraps
+
     def decorate(func):
         # If in optimized mode, disable type checking
         if not __debug__:
@@ -740,7 +755,7 @@ def read_json(path):
     return data
 
 
-def write_json(data, path):
+def write_json(data, path, sort=False):
     """write_json方法用于写json到文件中
 
     Parameters
@@ -749,12 +764,14 @@ def write_json(data, path):
         字典文件
     path : str
         保存路径
+    sort : bool
+        是否排序
     Returns
     ----------
     """
     import json
     with open(path, "w", encoding='UTF-8') as f:
-        f.write(json.dumps(data, indent=4, ensure_ascii=False))
+        f.write(json.dumps(data, indent=4, ensure_ascii=False, sort_keys=sort))
 
 
 def show_memory(variable, unit='KB'):
@@ -774,3 +791,105 @@ def show_memory(variable, unit='KB'):
     memory = eval("getsizeof({})".format(variable)) // scale
     print(f'{variable}: {memory} {unit}')
     return memory
+
+
+def lists_compare(l1, l2):
+    """lists_compare方法用于比较两个列表差异性
+
+    Parameters
+    ----------
+    l1 : list
+        列表1
+    l2 : list
+        列表2
+
+    Returns
+    ----------
+    """
+    dif12 = diff_set(l1, l2)
+    dif12_num = len(dif12)
+    dif21 = diff_set(l2, l1)
+    dif21_num = len(dif21)
+    inter = inter_set(l1, l2)
+    inter_num = len(inter)
+    union = union_set(l1, l2)
+    union_num = len(union)
+    print(f'l1 与 l2 差集个数{dif12_num}')
+    print(f'l2 与 l1 差集个数{dif21_num}')
+    print(f'l2 与 l1 交集个数{inter_num}')
+    print(f'l2 与 l1 并集个数{union_num}')
+    return dif12_num, dif21_num, inter_num, union_num, dif12, dif21, inter, union_num
+
+
+def try_except(func):
+    """try_except方法用于try except捕获异常
+
+    Parameters
+    ----------
+    func : function
+        函数
+    detail ： bool
+        是否打印细节
+    Returns
+    ----------
+    """
+    # import traceback
+    def wrapper(*args, **keyargs):
+        try:
+            return func(*args, **keyargs)
+        except Exception as e:
+            print(f'函数 {func.__name__} 执行错误!')
+            print(e)
+            # traceback.print_exc()
+            return None
+    return wrapper
+
+
+def list_to_dict(_list):
+    """list_to_dict方法用于列表转化为字典
+
+    Parameters
+    ----------
+    _list : list
+        列表
+
+    Returns
+    ----------
+    """
+    from collections import defaultdict
+    check = [item[0] for item in _list]  # 查看首元素是否有重复
+    if len(check) == len(set(check)):
+        _dict = {}
+        for item in _list:
+            key = item[0]
+            item = item[1:]
+            item = item[0] if len(item) == 1 else item
+            _dict[key] = item
+    else:
+        _dict = defaultdict(list)
+        for item in _list:
+            key = item[0]
+            item = item[1:]
+            _dict[key].extend(item)
+    return _dict
+
+
+def dict_to_list(_dict):
+    """dict_to_list方法用于字典转列表
+
+    Parameters
+    ----------
+    _dict : dict
+        字典
+
+    Returns
+    ----------
+    """
+    ret = []
+    for key in _dict:
+        data = _dict[key]
+        if type(data) is list:
+            ret.append([key, *data])
+        else:
+            ret.append([key, data])
+    return ret

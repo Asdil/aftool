@@ -7,7 +7,7 @@
    date：          2020/8/24
 -------------------------------------------------
    Change Activity:
-                   2020/8/24:
+                   2020/8/28:
 -------------------------------------------------
 """
 __author__ = 'Asdil'
@@ -247,5 +247,33 @@ class Mysql:
         cursor.execute(sql, args)
         conn.commit()
         conn.close()
+
+
+def optimize_expression(sql, params):
+    """optimize_expression方法用于优化sql表达式
+    使用方法:
+        sql = "select * from table1 where age=%s and name in (%s)"
+        params = [10, ['Tom', 'Jim']]
+        sql, params = optimize_expression(sql, params)
+    Parameters
+    ----------
+    sql : str
+        sql语句
+    params ： 参数列表
+
+    Returns
+    ----------
+    """
+    new_params = []
+    codes = []
+    for param in params:
+        if isinstance(param, list):
+            new_params.extend(list(map(str, param)))
+            codes.append(','.join(['%s']*len(param)))
+        else:
+            new_params.append(param)
+            codes.append('%s')
+    sql = sql % tuple(codes)
+    return sql, new_params
 
 

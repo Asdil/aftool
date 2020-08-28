@@ -110,6 +110,21 @@ def memmap(data):
     return memmap_data
 
 
+def load_memmap(path):
+    """load_memmap方法用于读取共享数据
+
+    Parameters
+    ----------
+    path : str
+        文件路径
+
+    Returns
+    ----------
+    """
+    memmap_data = joblib.load(path, mmap_mode='r+')
+    return memmap_data
+
+
 def example_ray():
     """ray方法用于ray是例子
 
