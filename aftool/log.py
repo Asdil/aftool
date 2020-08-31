@@ -43,12 +43,12 @@ def simple_init(level='INFO', log_path=None):
     return logger
 
 
-def init(path, level='INFO'):
+def init(log_path, level='INFO'):
     """init方法用于新建一个log, 但不能在spark上面跑
 
     Parameters
     ----------
-    path : str
+    log_path : str
         路径
     level : str
         日志等级
@@ -57,7 +57,7 @@ def init(path, level='INFO'):
     ----------
     """
     from loguru import logger
-    logger.add(path, rotation="1 MB", enqueue=True, level=level)
+    logger.add(log_path, rotation="1 MB", enqueue=True, level=level)
     return logger
 
 
