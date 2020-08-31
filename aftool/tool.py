@@ -12,13 +12,9 @@
 """
 __author__ = 'Asdil'
 import os
-import pip
 import gzip
 import time
 import shutil
-import zipfile
-import psutil
-import itertools
 import subprocess
 from tqdm import tqdm
 from datetime import datetime
@@ -61,7 +57,6 @@ def get_files(path, extension=None, key=None):
     return ret
 
 
-# 获取文件名
 def get_name(path, extension=None, key=None):
     """
     获取目标目录下文件名
@@ -313,6 +308,7 @@ def zip_file(file_path, output=None, rename=None, typ=3):
     :param output:     是否输入到其它文件夹
     :return:           True, False
     """
+    import zipfile
     # 拆分成文件路径，文件
     path, name, _, name_extension = split_path(file_path)
     if rename is None:
@@ -342,6 +338,7 @@ def unzip_file(file_path, output=None):
     :param file_path:  zip文件完整路径
     :return:
     """
+    import zipfile
     path, name, _, name_extension = split_path(file_path)
     azip = zipfile.ZipFile(file_path)
     if output is None:
@@ -574,6 +571,7 @@ def monitor_memery_cpu(pids, second=10, out_path=None, show=False):
     :param show:
     :return:
     """
+    import psutil
     proc = psutil.Process(int(pids))
     info = ['cpu rate\tmemory use']
     while True:
@@ -718,6 +716,7 @@ def install(package):
     Returns
     ----------
     """
+    import pip
     if hasattr(pip, 'main'):
         pip.main(['install', package])
     else:
@@ -735,6 +734,7 @@ def flatten(data):
     Returns
     ----------
     """
+    import itertools
     return list(itertools.chain.from_iterable(data))
 
 
