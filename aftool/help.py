@@ -161,3 +161,48 @@ def help_pytorch():
     print("""    print('epoch %d, loss: %f' % (epoch, l.item()))""")
 
 
+def help_abspath():
+    """help_path方法用于绝对路径
+
+    Parameters
+    ----------
+    param : str
+
+    Returns
+    ----------
+    """
+    print("import os")
+    print("abs_path = os.path.dirname(os.path.abspath(__file__))")
+    print("father_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))")
+
+
+def help_fastapi():
+    """help_fastapi方法用于fastapi示例
+
+    Parameters
+    ----------
+    param : str
+
+    Returns
+    ----------
+    """
+    print("from fastapi import FastAPI")
+    print("from pydantic import BaseModel")
+    print("app = FastAPI()")
+    print("class Args(BaseModel):")
+    print("    data_str: str")
+    print("    data_int: int")
+    print("    data_list: list")
+    print("")
+    print("""@app.post("/test_post")""")
+    print("async def postEchoApi(args:Args):")
+    print("    dict_args = args.dict() # 也可以转化为字典")
+    print("""    return {"str data":args.data_str,""")
+    print("""    'int data': args.data_int,""")
+    print("""    'list data':args.data_list,""")
+    print("""    'args 数据类型': str(type(args))}""")
+    print("")
+    print("if __name__ == '__main__':")
+    print("    import uvicorn")
+    print("""    uvicorn.run(app, host="127.0.0.1", port=8000)""")
+    return 0
