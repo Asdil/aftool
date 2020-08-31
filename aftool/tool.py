@@ -893,3 +893,44 @@ def dict_to_list(_dict):
         else:
             ret.append([key, data])
     return ret
+
+
+def write_yaml(data, path, encoding='UTF-8'):
+    """write_yaml方法用于写yaml配置文件
+
+    Parameters
+    ----------
+    data : dict
+        配置字典
+    path : str
+        保存路径
+    encoding : str
+        编码规则
+
+    Returns
+    ----------
+    """
+    import yaml
+    with open(path, 'w', encoding=encoding) as yaml_file:
+        yaml.safe_dump(data, yaml_file)
+
+
+def load_yaml(path, encoding='UTF-8'):
+    """read_yaml方法用于读取yaml文件
+
+    Parameters
+    ----------
+    path : str
+        yaml文件路径
+    encoding : str
+        编码规则
+
+    Returns
+    ----------
+    """
+    import yaml
+    with open(path, 'r', encoding=encoding) as f:
+        config = yaml.load(f.read())
+    return config
+
+
