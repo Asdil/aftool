@@ -821,6 +821,26 @@ def lists_compare(l1, l2):
     return dif12_num, dif21_num, inter_num, union_num, dif12, dif21, inter, union_num
 
 
+def iou(l1, l2):
+    """iou方法用于计算交集/并集
+
+    Parameters
+    ----------
+    l1 : list
+        列表1
+    l2 ： list
+        列表2
+
+    Returns
+    ----------
+    """
+    inter = inter_set(l1, l2)
+    union = union_set(l1, l2)
+    if len(union) == 0:
+        return 0
+    return len(inter)/len(union)
+
+
 def try_except(func):
     """try_except方法用于try except捕获异常
 
