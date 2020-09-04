@@ -22,14 +22,20 @@ from inspect import signature
 
 
 def path_join(path1, path2):
-    """
-    合并两个目录
-    :param path1:  路径
-    :param path2:  文件名
-    :return:
+    """path_join方法用于合并两个或多个目录
+
+    Parameters
+    ----------
+    path1 : str
+        主路径
+    path2 : str or list
+        子路径
+    Returns
+    ----------
     """
     assert isinstance(path1, str)
-    assert isinstance(path2, str)
+    if isinstance(path2, list):
+        path2 = os.sep.join(path2)
     if path1[-1] != os.sep:
         path1 += os.sep
     if path2[0] == os.sep:
@@ -37,23 +43,37 @@ def path_join(path1, path2):
     return path1 + path2
 
 
-def get_files(path, extension=None, key=None):
-    """
-    获取目标目录文件
-    :param path:      路径
-    :param extension: 后缀
-    :param key:       关键字
-    :return:
-    """
-    if extension is not None:
+def get_files(path, extension=None, exclude=None, include=None):
+    """get_files方法用于获取目录文件
+
+        Parameters
+        ----------
+        path : str
+            路径
+        extension : str
+            后缀
+        exclude : str
+            包含不包含某个词
+        include : str
+            包含某个词
+
+        Returns
+        ----------
+        """
+    ret = os.listdir(path)
+    if extension:
         length = -len(extension)
-        ret = [path_join(path, each) for each in os.listdir(
-            path) if each[length:] == extension]
-    elif key is not None:
-        ret = [path_join(path, each)
-               for each in os.listdir(path) if key in each]
-    else:
-        ret = [path_join(path, each) for each in os.listdir(path)]
+        ret = [path_join(path, each) for each in os.listdir(path) if each[length:] == extension]
+        if not ret:
+            return []
+    if exclude:
+        ret = list(filter(lambda x: exclude not in x, ret))
+        if not ret:
+            return []
+    if include:
+        ret = list(filter(lambda x: include in x, ret))
+        if not ret:
+            return []
     return ret
 
 
