@@ -18,7 +18,27 @@ import shutil
 import subprocess
 from tqdm import tqdm
 from datetime import datetime
-from inspect import signature
+
+
+def sort_list(data, ind, ascending=True):
+    """sort_list方法用于
+
+    Parameters
+    ----------
+    data : list
+        列表
+    ind : int
+        第几列
+    ascending : pool
+        升序或降序
+    Returns
+    ----------
+    """
+    if ascending:
+        data = sorted(data, key=lambda x: x[ind])
+    else:
+        data = sorted(data, key=lambda x: -x[ind])
+    return data
 
 
 def path_join(path1, path2):
@@ -848,7 +868,7 @@ def iou(l1, l2):
     ----------
     l1 : list
         列表1
-    l2 ： list
+    l2 : list
         列表2
 
     Returns
