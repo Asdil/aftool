@@ -37,7 +37,7 @@ def str_to_datetime(date):
 
 
 def datetime_to_str(date, milliseconds=False):
-    """datetime_to_str方法用于日期边字符串
+    """datetime_to_str方法用于日期转字符串
 
     Parameters
     ----------
@@ -59,7 +59,7 @@ def timestamp_to_datetime(timestamp):
 
     Parameters
     ----------
-    timeStamp : float
+    timestamp : float
         时间戳
     Returns
     ----------

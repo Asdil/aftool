@@ -629,7 +629,7 @@ def monitor_memery_cpu(pids, second=10, out_path=None, show=False):
             f.write('\n'.join(info))
 
 
-def read(path, sep='\n', encoding='utf-8'):
+def read(path, sep='\n', encoding='UTF-8'):
     """
     按行读数据
     :param path: 路径
@@ -637,8 +637,12 @@ def read(path, sep='\n', encoding='utf-8'):
     :param encoding: 编码
     :return:
     """
-    with open(path, 'r', encoding=encoding) as f:
-        return f.read().strip().split(sep)
+    try:
+        with open(path, 'r', encoding=encoding) as f:
+            return f.read().strip().split(sep)
+    except:
+        with open(path, 'r') as f:
+            return f.read().strip().split(sep)
 
 
 def write(data, path, sep='\n', encoding='utf-8'):
@@ -658,8 +662,12 @@ def write(data, path, sep='\n', encoding='utf-8'):
     Returns
     ----------
     """
-    with open(path, 'w', encoding=encoding) as f:
-        f.write(sep.join(data))
+    try:
+        with open(path, 'w', encoding=encoding) as f:
+            f.write(sep.join(data))
+    except:
+        with open(path, 'w') as f:
+            f.write(sep.join(data))
 
 
 def merge_commelement_list(lsts):
@@ -778,24 +786,29 @@ def flatten(data):
     return list(itertools.chain.from_iterable(data))
 
 
-def read_json(path):
+def read_json(path, encoding='UTF-8'):
     """read_json方法用于读取json文件
 
     Parameters
     ----------
     path : str
         json文件路径
-
+    encoding : str
+        编码类型
     Returns
     ----------
     """
     import json
-    with open(path, 'r', encoding='utf-8') as f:
-        data = json.loads(f.read())
+    try:
+        with open(path, 'r', encoding=encoding) as f:
+            data = json.loads(f.read())
+    except:
+        with open(path, 'r') as f:
+            data = json.loads(f.read())
     return data
 
 
-def write_json(data, path, sort=False):
+def write_json(data, path, sort=False, encoding='UTF-8'):
     """write_json方法用于写json到文件中
 
     Parameters
@@ -806,12 +819,18 @@ def write_json(data, path, sort=False):
         保存路径
     sort : bool
         是否排序
+    encoding : str
+        编码类型
     Returns
     ----------
     """
     import json
-    with open(path, "w", encoding='UTF-8') as f:
-        f.write(json.dumps(data, indent=4, ensure_ascii=False, sort_keys=sort))
+    try:
+        with open(path, "w", encoding=encoding) as f:
+            f.write(json.dumps(data, indent=4, ensure_ascii=False, sort_keys=sort))
+    except:
+        with open(path, "w") as f:
+            f.write(json.dumps(data, indent=4, ensure_ascii=False, sort_keys=sort))
 
 
 def show_memory(variable, unit='KB'):
