@@ -989,8 +989,12 @@ def load_yaml(path, encoding='UTF-8'):
     ----------
     """
     import yaml
-    with open(path, 'r', encoding=encoding) as f:
-        config = yaml.load(f.read())
+    try:
+        with open(path, 'r', encoding=encoding) as f:
+            config = yaml.load(f.read())
+    except:
+        with open(path, 'r') as f:
+            config = yaml.load(f.read())
     return config
 
 

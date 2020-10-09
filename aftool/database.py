@@ -107,7 +107,7 @@ class Psycopg:
         self.close_connect(conn, cursor)
         return result
 
-    def select_all(self, sql, args):
+    def select_all(self, sql, args=None):
         """select_all方法用于查找所有记录
 
         Parameters
