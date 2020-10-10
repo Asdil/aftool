@@ -287,7 +287,10 @@ def del_dir(path):
     :param path:  路径
     :return:
     """
-    shutil.rmtree(path)
+    if os.path.exists(path):
+        shutil.rmtree(path)
+        return True
+    return False
 
 
 def combin_dic(*args):

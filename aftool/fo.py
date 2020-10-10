@@ -50,12 +50,10 @@ def del_file(path):
     :param path:  路径
     :return:
     """
-    flag = True
-    try:
+    if os.path.exists(path):
         os.remove(path)
-    except BaseException:
-        flag = False
-    return flag
+        return True
+    return False
 
 
 def del_dir(path):
