@@ -15,10 +15,28 @@ import os
 import gzip
 import time
 import shutil
+import math
 import subprocess
 from tqdm import tqdm
 from datetime import datetime
 
+
+def is_nan(data):
+    """is_nan方法用于判断是不是空值
+
+    Parameters
+    ----------
+    param : str
+
+    Returns
+    ----------
+    """
+    if data is None:
+        return True
+    try:
+        return math.isnan(data)
+    except:
+        return False
 
 def sort_list(data, ind, ascending=True):
     """sort_list方法用于
