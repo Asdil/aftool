@@ -1031,7 +1031,7 @@ def load_yaml(path, encoding='UTF-8'):
     import yaml
     try:
         with open(path, 'r', encoding=encoding) as f:
-            config = yaml.load(f.read())
+            config = yaml.load(f.read(), Loader=yaml.FullLoader)
     except:
         with open(path, 'r') as f:
             config = yaml.load(f.read())
