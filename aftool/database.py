@@ -143,7 +143,7 @@ class Psycopg:
         conn, cursor = self.get_connect()
         try:
             res = cursor.execute(sql, value)
-            conn.commit(conn, cursor)
+            conn.commit()
             self.close_connect(conn, cursor)
             return res
         except Exception as e:
