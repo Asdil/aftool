@@ -19,6 +19,55 @@ import math
 import subprocess
 from tqdm import tqdm
 from datetime import datetime
+from collections import Counter
+
+
+def bins_by_step(start, end, step):
+    """bins_by_step方法用于等距分箱
+
+    Parameters
+    ----------
+    start : float
+        最小值
+    end : float
+        最大值
+    step : float
+        步长
+
+    Returns
+    ----------
+    """
+    if start >= end:
+        raise ValueError(u'start is greater than or equal to end')
+    ret = [start]
+    while True:
+        if ret[-1] + step >= end:
+            if ret[-1] == end:
+                break
+            ret.append(end)
+            break
+        ret.append(ret[-1] + step)
+    return ret
+
+
+def counter(data, n=None):
+    """counter方法用于统计元素数量
+
+    Parameters
+    ----------
+    data : list
+        列表数据
+    n : int
+        前n个元素
+    Returns
+    ----------
+    """
+    ret = Counter(data)
+    if not n:
+        ret = ret.most_common(len(ret))
+    else:
+        ret = ret.most_common(n)
+    return ret
 
 
 def is_nan(data):
@@ -26,7 +75,8 @@ def is_nan(data):
 
     Parameters
     ----------
-    param : str
+    data : anytype
+        任何数据类型
 
     Returns
     ----------
@@ -37,6 +87,38 @@ def is_nan(data):
         return math.isnan(data)
     except:
         return False
+
+
+def filter_nan(data):
+    """filter_na方法用于过滤None值
+
+    Parameters
+    ----------
+    data : list
+        数据列表
+
+    Returns
+    ----------
+    """
+    return list(filter(lambda x: not is_nan(x), data))
+
+
+def is_type(data, typ):
+    """is_type方法用于判断数据类型
+
+    Parameters
+    ----------
+    data : anydata
+        任何数据
+    typ ： anytype
+        需要确认的数据类型
+    Returns
+    ----------
+    """
+    if type(data) is typ:
+        return True
+    return False
+
 
 def sort_list(data, ind, ascending=True):
     """sort_list方法用于
@@ -735,15 +817,14 @@ def runtime(func):
     return wrapper
 
 
-def typeassert(*ty_args, **ty_kwargs):
-    """typeassert方法用于强制确认输入格式
+def type_assert(*ty_args, **ty_kwargs):
+    """type_assert方法用于强制确认输入格式
 
-    @typeassert(int, b=str)
+    @type_assert(int, b=str)
     f(a, b)
 
     Parameters
     ----------
-    param : str
 
     Returns
     ----------
