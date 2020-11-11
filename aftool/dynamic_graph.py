@@ -204,7 +204,7 @@ def bar(df, col, **kwargs):
     return bar.render_notebook()  # 直接在jupyter上显示
 
 
-def scatter(df, x, y, label=None, symbol=None, mark_size=9, width=1000, height=600, title=None,
+def scatter(df, x, y, label=None, symbol=None, text_hidden=None, text_show=None, mark_size=9, width=1000, height=600, title=None,
             is_show=True, save_path=None, xyrange=None):
     """scatter方法用于画动态散点图
 
@@ -219,6 +219,11 @@ def scatter(df, x, y, label=None, symbol=None, mark_size=9, width=1000, height=6
         df中标签名称
     symbol: str or None
         df中散点形状
+    text_hidden: str or None
+        每个点在鼠标放上去时显示的信息
+        与text_show互斥
+    text_show ： str or None
+        每个点在显示的信息
     mark_size: int
         散点大小
     width: int
@@ -237,7 +242,8 @@ def scatter(df, x, y, label=None, symbol=None, mark_size=9, width=1000, height=6
     Returns
     ----------
     """
-    fig = px.scatter(df, x=x, y=y, color=label, symbol=symbol, width=width, height=height)
+    fig = px.scatter(df, x=x, y=y, color=label, symbol=symbol, hover_name=text_hidden, text=text_show, width=width,
+                     height=height)
     fig.update_traces(marker=dict(size=mark_size, line=dict(width=1, color='DarkSlateGrey')),
                       selector=dict(mode='markers'))
     if xyrange:
